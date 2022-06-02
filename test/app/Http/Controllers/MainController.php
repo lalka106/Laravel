@@ -38,6 +38,6 @@ class MainController extends Controller
 
         $review->save();
 
-        return redirect()->route('review');
+        return redirect()->route('home')->with('success','Отзыв добавлен');
     }
 }

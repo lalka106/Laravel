@@ -7,15 +7,7 @@
 @section('main-content')
     <h1>Форма отзыва</h1>
 
-    @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{$error}}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    @include('include.messages')
 
     <form method="post" action="/review/check">
         @csrf
