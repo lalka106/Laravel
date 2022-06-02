@@ -17,18 +17,25 @@ class MainController extends Controller
         return view('about');
     }
 
+    public function login()
+    {
+        return view('login');
+    }
+
+
     public function review()
     {
         $reviews = new Contact();
-        return view('review',['reviews'=>$reviews->all()]);
+        return view('review', ['reviews' => $reviews->all()]);
     }
+
 
     public function review_check(Request $request)
     {
         $valid = $request->validate([
-           'email' => 'required|min:4|max:30',
-           'subject' => 'required|min:10|max:100',
-           'message' => 'required|min:20|max:500',
+            'email' => 'required|min:4|max:30',
+            'subject' => 'required|min:10|max:100',
+            'message' => 'required|min:20|max:500',
         ]);
 
         $review = new Contact();
@@ -38,6 +45,47 @@ class MainController extends Controller
 
         $review->save();
 
-        return redirect()->route('home')->with('success','Отзыв добавлен');
+        return redirect()->route('home')->with('success', 'Отзыв добавлен');
+    }
+
+    public function ShowSingleReview($id)
+    {
+        $reviews = new Contact();
+        return view('single-review', ['reviews' => $reviews->find($id)]);
+
+    }
+
+    public function ReviewUpdate($id)
+    {
+        $reviews = new Contact();
+        return view('review-update', ['reviews' => $reviews->find($id)]);
+    }
+
+    public function ReviewUpdateSubmit($id, Request $request)
+    {
+        $valid = $request->validate([
+            'email' => 'required|min:4|max:30',
+            'subject' => 'required|min:10|max:100',
+            'message' => 'required|min:20|max:500',
+        ]);
+
+        $review = new Contact();
+        $review = $review->find($id);
+        $review->email = $request->input('email');
+        $review->subject = $request->input('subject');
+        $review->message = $request->input('message');
+
+        $review->save();
+
+        return redirect()->route('single-review', $id)->with('success', 'Отзыв обновлен');
+    }
+
+    public function ReviewDelete($id)
+    {
+        $review = new Contact();
+        $review = $review->find($id)->delete();
+//        $review = $review->delete();
+        return redirect()->route('review')->with('success', 'Отзыв удален');
+
     }
 }

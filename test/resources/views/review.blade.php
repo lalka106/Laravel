@@ -9,7 +9,7 @@
 
     @include('include.messages')
 
-    <form method="post" action="/review/check">
+    <form method="post" action="{{'review-check'}}">
         @csrf
         <input type="email" name="email" id="email" placeholder="Введите email" class="form-control"><br>
         <input type="text" name="subject" id="subject" placeholder="Введите отзыв" class="form-control"><br>
@@ -24,7 +24,8 @@
             <h3>{{$review->subject}}</h3>
             <b>{{$review->email}}</b>
             <p>{{$review->message}}</p>
-            <p>{{$review->created_at}}</p>
+            <p><small>{{$review->created_at}}</small></p>
+            <a href="{{route('single-review',$review->id)}}"><button class="btn btn-warning">Детальнее</button></a>
         </div>
     @endforeach
 @endsection
