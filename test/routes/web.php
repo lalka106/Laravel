@@ -21,7 +21,7 @@ Route::get('/about', [MainController::class, 'about'])->name('about');
 Route::get('/review', [MainController::class, 'review'])->name('review');
 Route::get('/review/{id}', [MainController::class, 'ShowSingleReview'])->name('single-review');
 Route::get('/review/{id}/update', [MainController::class, 'ReviewUpdate'])->name('review-update');
-Route::get('/review/{id}/update', [MainController::class, 'ReviewUpdateSubmit'])->name('review-update-submit');
+Route::post('/review/{id}/update', [MainController::class, 'ReviewUpdateSubmit'])->name('review-update-submit');
 Route::get('/review/{id}/delete', [MainController::class, 'ReviewDelete'])->name('review-delete');
 Route::post('/review/check', [MainController::class, 'review_check'])->name('review-check');
 
