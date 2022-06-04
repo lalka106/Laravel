@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 
 @section('page')
     {{$reviews->subject}}

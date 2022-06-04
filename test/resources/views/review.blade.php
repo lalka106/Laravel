@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layout.layout')
 
 @section('page')
     Review
@@ -9,7 +9,7 @@
 
     @include('include.messages')
 
-    <form method="post" action="{{'review-check'}}">
+    <form method="post" action="{{route('review-check')}}">
         @csrf
         <input type="email" name="email" id="email" placeholder="Введите email" class="form-control"><br>
         <input type="text" name="subject" id="subject" placeholder="Введите отзыв" class="form-control"><br>
@@ -25,7 +25,10 @@
             <b>{{$review->email}}</b>
             <p>{{$review->message}}</p>
             <p><small>{{$review->created_at}}</small></p>
-            <a href="{{route('single-review',$review->id)}}"><button class="btn btn-warning">Детальнее</button></a>
+{{--            <p><small>{{$review->user_id = \Illuminate\Support\Facades\Auth::user()}}</small></p>--}}
+            <a href="{{route('single-review',$review->id)}}">
+                <button class="btn btn-warning">Детальнее</button>
+            </a>
         </div>
     @endforeach
 @endsection

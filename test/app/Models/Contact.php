@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model
 {
 //    public $timestamps = false;
+    protected $fillable = [
+        'email',
+        'subject',
+        'message',
+        'user_id',
+    ];
+
+    public function user() {
+        $this->belongsTo(User::class);
+    }
 }

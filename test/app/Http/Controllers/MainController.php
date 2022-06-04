@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Http\Requests\ContactFormRequest;
+use App\Mail\ContactForm;
 use App\Models\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class MainController extends Controller
 {
@@ -29,63 +33,15 @@ class MainController extends Controller
         return view('review', ['reviews' => $reviews->all()]);
     }
 
-
-    public function review_check(Request $request)
+    public function showContactForm()
     {
-        $valid = $request->validate([
-            'email' => 'required|min:4|max:30',
-            'subject' => 'required|min:10|max:100',
-            'message' => 'required|min:20|max:500',
-        ]);
-
-        $review = new Contact();
-        $review->email = $request->input('email');
-        $review->subject = $request->input('subject');
-        $review->message = $request->input('message');
-
-        $review->save();
-
-        return redirect()->route('home')->with('success', 'Отзыв добавлен');
+        return view('contact_form');
     }
 
-    public function ShowSingleReview($id)
+    public function contactForm(ContactFormRequest $request)
     {
-        $reviews = new Contact();
-        return view('single-review', ['reviews' => $reviews->find($id)]);
-
+        Mail::to("edik66948@gmail.com")->send(new ContactForm($request->validated()));
+        return redirect(route("contacts"));
     }
 
-    public function ReviewUpdate($id)
-    {
-        $reviews = new Contact();
-        return view('review-update', ['reviews' => $reviews->find($id)]);
-    }
-
-    public function ReviewUpdateSubmit($id, Request $request)
-    {
-        $valid = $request->validate([
-            'email' => 'required|min:4|max:30',
-            'subject' => 'required|min:10|max:100',
-            'message' => 'required|min:20|max:500',
-        ]);
-
-        $review = new Contact();
-        $review = $review->find($id);
-        $review->email = $request->input('email');
-        $review->subject = $request->input('subject');
-        $review->message = $request->input('message');
-
-        $review->save();
-
-        return redirect()->route('single-review', $id)->with('success', 'Отзыв обновлен');
-    }
-
-    public function ReviewDelete($id)
-    {
-        $review = new Contact();
-        $review = $review->find($id)->delete();
-//        $review = $review->delete();
-        return redirect()->route('review')->with('success', 'Отзыв удален');
-
-    }
 }
